@@ -1,373 +1,315 @@
-// Enhanced Product Database
-const products = {
+// Indian E-commerce Websites Configuration
+const websites = {
+    amazon: {
+        name: "Amazon India",
+        color: "#FF9900",
+        icon: "📦",
+        searchUrl: "https://www.amazon.in/s?k=QUERY",
+        baseUrl: "https://www.amazon.in"
+    },
+    flipkart: {
+        name: "Flipkart",
+        color: "#047BD5", 
+        icon: "📱",
+        searchUrl: "https://www.flipkart.com/search?q=QUERY",
+        baseUrl: "https://www.flipkart.com"
+    },
+    myntra: {
+        name: "Myntra", 
+        color: "#FF3F6C",
+        icon: "👕",
+        searchUrl: "https://www.myntra.com/QUERY",
+        baseUrl: "https://www.myntra.com"
+    },
+    ajio: {
+        name: "Ajio",
+        color: "#000000",
+        icon: "🛍️", 
+        searchUrl: "https://www.ajio.com/search/?text=QUERY",
+        baseUrl: "https://www.ajio.com"
+    },
+    snapdeal: {
+        name: "Snapdeal",
+        color: "#CB202D",
+        icon: "🛒",
+        searchUrl: "https://www.snapdeal.com/search?keyword=QUERY",
+        baseUrl: "https://www.snapdeal.com"
+    }
+};
+
+// Sample product database for recommendations (optional)
+const sampleProducts = {
     electronics: [
-        { 
-            id: 1, 
-            name: "Wireless Bluetooth Headphones", 
-            price: 79.99, 
-            category: "electronics",
-            description: "Noise-cancelling wireless headphones with 30hr battery life",
-            tags: ["audio", "headphones", "wireless", "bluetooth", "music"]
-        },
-        { 
-            id: 2, 
-            name: "Smartphone Pro", 
-            price: 699.99, 
-            category: "electronics",
-            description: "Latest smartphone with advanced camera and 5G connectivity",
-            tags: ["phone", "mobile", "smartphone", "5g", "camera"]
-        },
-        { 
-            id: 3, 
-            name: "Gaming Laptop", 
-            price: 1299.99, 
-            category: "electronics",
-            description: "High-performance gaming laptop with RGB keyboard",
-            tags: ["laptop", "gaming", "computer", "gaming laptop", "rgb"]
-        },
-        { 
-            id: 4, 
-            name: "Smart Watch", 
-            price: 199.99, 
-            category: "electronics",
-            description: "Fitness tracker with heart rate monitor and GPS",
-            tags: ["watch", "smartwatch", "fitness", "health", "gps"]
-        },
-        { 
-            id: 5, 
-            name: "Tablet", 
-            price: 399.99, 
-            category: "electronics",
-            description: "10-inch tablet with stylus support",
-            tags: ["tablet", "ipad", "drawing", "entertainment"]
-        }
+        { name: "Wireless Headphones", category: "electronics", keywords: ["headphones", "earphones", "audio"] },
+        { name: "Smartphone", category: "electronics", keywords: ["mobile", "phone", "android", "ios"] },
+        { name: "Laptop", category: "electronics", keywords: ["notebook", "computer", "macbook", "windows"] }
     ],
     clothing: [
-        { 
-            id: 6, 
-            name: "Cotton T-Shirt", 
-            price: 24.99, 
-            category: "clothing",
-            description: "100% cotton crew neck t-shirt in various colors",
-            tags: ["tshirt", "shirt", "cotton", "casual", "basic"]
-        },
-        { 
-            id: 7, 
-            name: "Denim Jeans", 
-            price: 59.99, 
-            category: "clothing",
-            description: "Slim fit denim jeans with stretch comfort",
-            tags: ["jeans", "denim", "pants", "slim fit", "casual"]
-        },
-        { 
-            id: 8, 
-            name: "Winter Jacket", 
-            price: 129.99, 
-            category: "clothing",
-            description: "Waterproof winter jacket with thermal insulation",
-            tags: ["jacket", "winter", "coat", "waterproof", "warm"]
-        },
-        { 
-            id: 9, 
-            name: "Running Shoes", 
-            price: 89.99, 
-            category: "clothing",
-            description: "Lightweight running shoes with cushion support",
-            tags: ["shoes", "running", "sneakers", "athletic", "sports"]
-        },
-        { 
-            id: 10, 
-            name: "Summer Dress", 
-            price: 45.99, 
-            category: "clothing",
-            description: "Light floral summer dress with comfortable fit",
-            tags: ["dress", "summer", "floral", "casual", "fashion"]
-        }
+        { name: "T-Shirts", category: "clothing", keywords: ["tshirt", "tee", "cotton"] },
+        { name: "Jeans", category: "clothing", keywords: ["denim", "pants", "trousers"] },
+        { name: "Running Shoes", category: "clothing", keywords: ["sneakers", "sports", "athletic"] }
     ],
     home: [
-        { 
-            id: 11, 
-            name: "Ceramic Coffee Mug Set", 
-            price: 29.99, 
-            category: "home",
-            description: "Set of 4 ceramic coffee mugs with modern design",
-            tags: ["mug", "coffee", "ceramic", "kitchen", "drinkware"]
-        },
-        { 
-            id: 12, 
-            name: "Desk Lamp", 
-            price: 34.99, 
-            category: "home",
-            description: "LED adjustable desk lamp with touch controls",
-            tags: ["lamp", "desk", "led", "lighting", "office"]
-        },
-        { 
-            id: 13, 
-            name: "Throw Pillow", 
-            price: 19.99, 
-            category: "home",
-            description: "Decorative velvet throw pillow for sofa",
-            tags: ["pillow", "decor", "home", "sofa", "comfort"]
-        },
-        { 
-            id: 14, 
-            name: "Kitchen Blender", 
-            price: 49.99, 
-            category: "home",
-            description: "High-speed blender for smoothies and food prep",
-            tags: ["blender", "kitchen", "smoothie", "appliance", "cooking"]
-        }
-    ],
-    books: [
-        { 
-            id: 15, 
-            name: "JavaScript Programming Guide", 
-            price: 34.99, 
-            category: "books",
-            description: "Comprehensive guide to modern JavaScript programming",
-            tags: ["book", "javascript", "programming", "coding", "web"]
-        },
-        { 
-            id: 16, 
-            name: "Cookbook: Healthy Recipes", 
-            price: 24.99, 
-            category: "books",
-            description: "Collection of healthy and easy-to-make recipes",
-            tags: ["cookbook", "recipes", "cooking", "healthy", "food"]
-        }
+        { name: "Kitchen Appliances", category: "home", keywords: ["kitchen", "cooking", "appliances"] },
+        { name: "Home Decor", category: "home", keywords: ["decor", "furniture", "home"] }
     ]
 };
 
-// Shopping cart
+// Shopping cart for tracking user interests
 let cart = [];
+let searchHistory = [];
+let currentWebsiteFilter = null;
 
-// Smart product search function
-function searchProducts(query) {
-    const lowerQuery = query.toLowerCase().trim();
-    const results = [];
+// Generate search URLs for any product
+function generateProductSearchLinks(productName) {
+    const encodedQuery = encodeURIComponent(productName);
+    let links = {};
     
-    // If query is empty, return some featured products
-    if (!lowerQuery) {
-        return [
-            products.electronics[0],
-            products.clothing[0], 
-            products.home[0]
-        ];
+    for (const website in websites) {
+        links[website] = websites[website].searchUrl.replace("QUERY", encodedQuery);
     }
     
-    // Search through all products
-    for (const category in products) {
-        products[category].forEach(product => {
-            let score = 0;
-            
-            // Exact name match (highest priority)
-            if (product.name.toLowerCase().includes(lowerQuery)) {
-                score += 10;
-            }
-            
-            // Description match
-            if (product.description.toLowerCase().includes(lowerQuery)) {
-                score += 5;
-            }
-            
-            // Tag matches
-            product.tags.forEach(tag => {
-                if (tag.toLowerCase().includes(lowerQuery)) {
-                    score += 3;
-                }
-            });
-            
-            // Category match
-            if (product.category.toLowerCase().includes(lowerQuery)) {
-                score += 2;
-            }
-            
-            // Price search (e.g., "under 50", "cheap", "expensive")
-            if (lowerQuery.includes('under') || lowerQuery.includes('less than') || lowerQuery.includes('below')) {
-                const priceMatch = lowerQuery.match(/(\d+)/);
-                if (priceMatch && product.price <= parseInt(priceMatch[1])) {
-                    score += 4;
-                }
-            }
-            
-            if ((lowerQuery.includes('cheap') || lowerQuery.includes('budget') || lowerQuery.includes('affordable')) && product.price < 50) {
-                score += 3;
-            }
-            
-            if ((lowerQuery.includes('expensive') || lowerQuery.includes('premium') || lowerQuery.includes('luxury')) && product.price > 100) {
-                score += 3;
-            }
-            
-            // Add to results if score is above threshold
-            if (score > 0) {
-                results.push({
-                    product: product,
-                    score: score
-                });
-            }
-        });
-    }
-    
-    // Sort by score (highest first) and return only products
-    return results
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 6) // Limit to top 6 results
-        .map(item => item.product);
+    return links;
 }
 
-// Helper function to extract search query
-function extractSearchQuery(message) {
-    const searchPrefixes = ['find', 'search', 'look for', 'show me', 'i want', 'need', 'looking for'];
-    let query = message.toLowerCase();
+// Extract product name from user message
+function extractProductName(message) {
+    const lowerMessage = message.toLowerCase();
     
-    // Remove common prefixes to get the actual search term
-    searchPrefixes.forEach(prefix => {
-        if (query.startsWith(prefix)) {
-            query = query.substring(prefix.length).trim();
+    // Remove search prefixes
+    const prefixes = [
+        'find', 'search', 'look for', 'show me', 'i want', 'need', 
+        'looking for', 'buy', 'purchase', 'get', 'where can i find',
+        'price of', 'cost of', 'shop for', 'find me'
+    ];
+    
+    let productName = message;
+    
+    // Remove prefixes
+    prefixes.forEach(prefix => {
+        if (lowerMessage.startsWith(prefix)) {
+            productName = productName.substring(prefix.length).trim();
         }
-        // Also check if prefix appears in the middle
-        const prefixIndex = query.indexOf(prefix);
+        const prefixIndex = lowerMessage.indexOf(prefix + ' ');
         if (prefixIndex > -1) {
-            query = query.substring(prefixIndex + prefix.length).trim();
+            productName = productName.substring(prefixIndex + prefix.length).trim();
         }
     });
     
-    // Remove question marks and other punctuation
-    query = query.replace(/[?]/g, '').trim();
+    // Remove question marks and common suffixes
+    productName = productName.replace(/[?]/g, '').trim();
+    productName = productName.replace(/(please|pls|thanks|thank you|on amazon|on flipkart|online)/gi, '').trim();
     
-    return query || message;
+    return productName;
 }
 
-// Function to perform and display search
-function performSearch(query) {
-    const results = searchProducts(query);
+// Generate website buttons for any product
+function generateWebsiteButtons(productName) {
+    const searchLinks = generateProductSearchLinks(productName);
+    let buttonsHTML = '<div class="website-buttons-container">';
     
-    if (results.length === 0) {
-        addMessage(`I couldn't find any products matching "${query}". Try different keywords or browse categories.` +
-            addQuickReplies());
-        return;
+    buttonsHTML += `<div class="website-buttons-header">🛍️ Search "${productName}" on:</div>`;
+    buttonsHTML += '<div class="website-buttons-grid">';
+    
+    for (const website in websites) {
+        const site = websites[website];
+        buttonsHTML += `
+            <a href="${searchLinks[website]}" target="_blank" class="website-btn" style="background: ${site.color}">
+                ${site.icon} ${site.name}
+            </a>
+        `;
     }
     
-    let response = `🔍 I found ${results.length} product(s) for "${query}":<br><br>`;
+    buttonsHTML += '</div></div>';
+    return buttonsHTML;
+}
+
+// Get price comparison for a product
+function generatePriceComparison(productName) {
+    const searchLinks = generateProductSearchLinks(productName);
     
-    results.forEach(product => {
-        response += `
-            <div class="product-card">
-                <h4>${product.name}</h4>
-                <div class="price">$${product.price}</div>
-                <p>${product.description}</p>
-                <button class="add-to-cart" onclick="addToCart(${product.id})">🛒 Add to Cart</button>
+    let comparisonHTML = `
+        <div class="price-comparison">
+            <div class="comparison-header">💰 Price Comparison for "${productName}"</div>
+            <div class="comparison-grid">
+    `;
+    
+    for (const website in websites) {
+        const site = websites[website];
+        comparisonHTML += `
+            <div class="comparison-card">
+                <div class="website-icon" style="color: ${site.color}">${site.icon}</div>
+                <div class="website-name">${site.name}</div>
+                <div class="price-placeholder">Check website for price</div>
+                <a href="${searchLinks[website]}" target="_blank" class="check-price-btn">Check Price</a>
+            </div>
+        `;
+    }
+    
+    comparisonHTML += '</div></div>';
+    return comparisonHTML;
+}
+
+// Smart product category detection
+function detectProductCategory(productName) {
+    const lowerName = productName.toLowerCase();
+    
+    const categories = {
+        electronics: ['phone', 'mobile', 'laptop', 'headphone', 'earphone', 'tablet', 'camera', 'tv', 'smartwatch', 'charger', 'cable', 'electronic', 'tech'],
+        clothing: ['shirt', 'tshirt', 'jeans', 'pant', 'dress', 'shoe', 'sneaker', 'jacket', 'hoodie', 'sweater', 'cloth', 'fashion', 'wear'],
+        home: ['furniture', 'sofa', 'chair', 'table', 'bed', 'mattress', 'lamp', 'decor', 'kitchen', 'appliance', 'cookware', 'home'],
+        books: ['book', 'novel', 'textbook', 'stationery', 'pen', 'notebook'],
+        sports: ['sports', 'cricket', 'football', 'bat', 'ball', 'fitness', 'gym', 'yoga'],
+        beauty: ['cosmetic', 'makeup', 'skincare', 'beauty', 'perfume', 'cream', 'lotion']
+    };
+    
+    for (const category in categories) {
+        if (categories[category].some(keyword => lowerName.includes(keyword))) {
+            return category;
+        }
+    }
+    
+    return 'general';
+}
+
+// Get similar product suggestions
+function getSimilarProducts(productName) {
+    const category = detectProductCategory(productName);
+    const similarProducts = sampleProducts[category] || [];
+    
+    if (similarProducts.length === 0) return '';
+    
+    let suggestionsHTML = '<div class="suggestions-container">';
+    suggestionsHTML += '<div class="suggestions-header">💡 You might also like:</div>';
+    suggestionsHTML += '<div class="suggestions-grid">';
+    
+    similarProducts.forEach(product => {
+        suggestionsHTML += `
+            <div class="suggestion-card" onclick="handleQuickReply('${product.name}')">
+                <div class="suggestion-name">${product.name}</div>
+                <div class="suggestion-category">${product.category}</div>
             </div>
         `;
     });
     
-    response += `<br>Try searching for something else or browse categories!`;
-    
-    addMessage(response);
+    suggestionsHTML += '</div></div>';
+    return suggestionsHTML;
 }
 
-// Show products by category
-function showProducts(category) {
-    const categoryProducts = products[category];
-    let response = `🏷️ Here are our ${category} products:<br><br>`;
+// Main message processing function
+function processMessage(message) {
+    const lowerMessage = message.toLowerCase();
     
-    categoryProducts.forEach(product => {
-        response += `
-            <div class="product-card">
-                <h4>${product.name}</h4>
-                <div class="price">$${product.price}</div>
-                <p>${product.description}</p>
-                <button class="add-to-cart" onclick="addToCart(${product.id})">🛒 Add to Cart</button>
-            </div>
-        `;
-    });
-    
-    response += `<br>Want to see more? Try searching for specific items!`;
-    
-    addMessage(response);
-}
-
-// Add to cart functionality
-function addToCart(productId) {
-    // Find product in all categories
-    let product = null;
-    for (const category in products) {
-        product = products[category].find(p => p.id === productId);
-        if (product) break;
-    }
-    
-    if (product) {
-        cart.push(product);
-        addMessage(`✅ Added <strong>${product.name}</strong> to your cart! 🛒<br><br>` +
-            `<div class="quick-replies">` +
-            `<button class="quick-reply" onclick="handleQuickReply('Show cart')">View Cart (${cart.length})</button>` +
-            `<button class="quick-reply" onclick="handleQuickReply('Continue shopping')">Continue Shopping</button>` +
-            `</div>`);
-    } else {
-        addMessage("❌ Sorry, I couldn't find that product. Please check the product number and try again.");
-    }
-}
-
-// Show cart contents
-function showCart() {
-    if (cart.length === 0) {
-        addMessage("🛒 Your cart is empty. Browse our categories to add items!" +
+    // Greetings
+    if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+        addMessage("👋 Namaste! I'm your India shopping assistant. I can help you search for any product across Amazon, Flipkart, Myntra, Ajio, and Snapdeal! Just tell me what you're looking for." +
             addQuickReplies());
         return;
     }
     
-    let response = "<strong>🛒 Your Shopping Cart</strong><br><br>";
-    let total = 0;
+    // Help command
+    if (lowerMessage.includes('help') || lowerMessage.includes('what can you do')) {
+        addMessage("🛍️ <strong>I can help you shop from Indian websites:</strong><br>" +
+            "• <strong>Search any product</strong> across 5 major Indian sites<br>" +
+            "• <strong>Price comparison</strong> between different websites<br>" +
+            "• <strong>Product recommendations</strong> and suggestions<br>" +
+            "• <strong>Track your searches</strong> and interests<br><br>" +
+            "<strong>Supported websites:</strong> Amazon India, Flipkart, Myntra, Ajio, Snapdeal<br><br>" +
+            "Just tell me what you want to buy!" + addQuickReplies());
+        return;
+    }
     
-    cart.forEach((item, index) => {
-        response += `• ${item.name} - $${item.price}<br>`;
-        total += item.price;
-    });
+    // Show search history
+    if (lowerMessage.includes('history') || lowerMessage.includes('previous') || lowerMessage.includes('searches')) {
+        showSearchHistory();
+        return;
+    }
     
-    response += `<br><strong>💰 Total: $${total.toFixed(2)}</strong><br><br>` +
-        "<div class='quick-replies'>" +
-        `<button class='quick-reply' onclick='handleQuickReply("Checkout")'>💳 Checkout</button>` +
-        `<button class='quick-reply' onclick='handleQuickReply("Clear cart")'>🗑️ Clear Cart</button>` +
-        `<button class='quick-reply' onclick='handleQuickReply("Continue shopping")'>🛍️ Continue Shopping</button>` +
-        "</div>";
+    // Clear history
+    if (lowerMessage.includes('clear history')) {
+        searchHistory = [];
+        addMessage("🗑️ Your search history has been cleared." + addQuickReplies());
+        return;
+    }
+    
+    // Thank you
+    if (lowerMessage.includes('thank') || lowerMessage.includes('thanks')) {
+        addMessage("You're welcome! 😊 Happy shopping! Let me know if you need help with anything else." + addQuickReplies());
+        return;
+    }
+    
+    // Handle product search
+    handleProductSearch(message);
+}
+
+// Handle any product search
+function handleProductSearch(message) {
+    const productName = extractProductName(message);
+    
+    if (!productName || productName.length < 2) {
+        addMessage("Please tell me what product you're looking for. For example: 'I want to buy a smartphone' or 'Find running shoes for me'." +
+            addQuickReplies());
+        return;
+    }
+    
+    // Add to search history
+    if (!searchHistory.includes(productName.toLowerCase())) {
+        searchHistory.unshift(productName.toLowerCase());
+        // Keep only last 10 searches
+        if (searchHistory.length > 10) {
+            searchHistory.pop();
+        }
+    }
+    
+    const category = detectProductCategory(productName);
+    
+    let response = `🔍 Searching for "<strong>${productName}</strong>"...<br>`;
+    response += `<small>Category: ${category.charAt(0).toUpperCase() + category.slice(1)}</small><br><br>`;
+    
+    // Add website buttons
+    response += generateWebsiteButtons(productName);
+    
+    // Add price comparison
+    response += generatePriceComparison(productName);
+    
+    // Add similar products suggestions
+    response += getSimilarProducts(productName);
     
     addMessage(response);
 }
 
-// Clear cart
-function clearCart() {
-    cart = [];
-    addMessage("🗑️ Your cart has been cleared." + addQuickReplies());
-}
-
-// Checkout process
-function checkout() {
-    if (cart.length === 0) {
-        addMessage("Your cart is empty. Add some items first!");
+// Show search history
+function showSearchHistory() {
+    if (searchHistory.length === 0) {
+        addMessage("You haven't searched for anything yet. Try searching for a product!" + addQuickReplies());
         return;
     }
     
-    let total = cart.reduce((sum, item) => sum + item.price, 0);
+    let response = "📋 <strong>Your Recent Searches:</strong><br><br>";
     
-    addMessage(`💳 Checkout Complete!<br><br>` +
-        `You purchased ${cart.length} item(s) for $${total.toFixed(2)}.<br>` +
-        `Thank you for your order! 🎉<br><br>` +
-        `<div class="quick-replies">` +
-        `<button class="quick-reply" onclick="handleQuickReply('Start new order')">🛍️ Start New Order</button>` +
-        `</div>`);
+    searchHistory.forEach((search, index) => {
+        response += `${index + 1}. <span class="history-item" onclick="handleQuickReply('${search}')">${search}</span><br>`;
+    });
     
-    cart = []; // Clear cart after checkout
+    response += `<br><div class="quick-replies">
+        <button class="quick-reply" onclick="handleQuickReply('Clear history')">🗑️ Clear History</button>
+        <button class="quick-reply" onclick="handleQuickReply('Start new search')">🔄 New Search</button>
+    </div>`;
+    
+    addMessage(response);
 }
 
-// Quick replies
+// Quick replies for common products
 function addQuickReplies() {
     const quickReplies = [
-        'Find headphones',
-        'Search for shoes',
-        'Show electronics',
-        'Budget products',
-        'View cart',
-        'Help'
+        'Smartphone',
+        'Laptop',
+        'Headphones',
+        'Running Shoes',
+        'Jeans',
+        'T-Shirts',
+        'Kitchen appliances',
+        'Show search history'
     ];
     
     let buttonsHTML = '<div class="quick-replies">';
@@ -382,106 +324,6 @@ function addQuickReplies() {
 function handleQuickReply(text) {
     document.getElementById('userInput').value = text;
     sendMessage();
-}
-
-// Main message processing
-function processMessage(message) {
-    const lowerMessage = message.toLowerCase();
-    
-    // Greetings
-    if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
-        addMessage("👋 Hello! I'm your shopping assistant. I can help you find products, compare prices, and manage your cart!" +
-            addQuickReplies());
-        return;
-    }
-    
-    // Product search
-    if (lowerMessage.includes('find') || lowerMessage.includes('search') || lowerMessage.includes('look for') || 
-        lowerMessage.includes('show me') || lowerMessage.includes('i want') || lowerMessage.includes('need') ||
-        lowerMessage.includes('looking for')) {
-        
-        let searchQuery = extractSearchQuery(message);
-        
-        if (searchQuery && searchQuery.length > 1) {
-            performSearch(searchQuery);
-        } else {
-            addMessage("What would you like me to search for? Try something like 'search for headphones' or 'find running shoes'.");
-        }
-        return;
-    }
-    
-    // Price-based searches
-    if (lowerMessage.includes('under') || lowerMessage.includes('cheap') || lowerMessage.includes('budget') || 
-        lowerMessage.includes('expensive') || lowerMessage.includes('affordable') || lowerMessage.includes('price')) {
-        performSearch(message);
-        return;
-    }
-    
-    // Category browsing
-    if (lowerMessage.includes('electron') || lowerMessage.includes('tech') || lowerMessage.includes('gadget')) {
-        showProducts('electronics');
-        return;
-    }
-    
-    if (lowerMessage.includes('cloth') || lowerMessage.includes('fashion') || lowerMessage.includes('wear') || lowerMessage.includes('dress')) {
-        showProducts('clothing');
-        return;
-    }
-    
-    if (lowerMessage.includes('home') || lowerMessage.includes('decor') || lowerMessage.includes('furniture') || lowerMessage.includes('kitchen')) {
-        showProducts('home');
-        return;
-    }
-    
-    if (lowerMessage.includes('book') || lowerMessage.includes('read')) {
-        showProducts('books');
-        return;
-    }
-    
-    // Cart operations
-    if (lowerMessage.includes('cart') || lowerMessage.includes('basket')) {
-        showCart();
-        return;
-    }
-    
-    if (lowerMessage.includes('clear cart') || lowerMessage.includes('empty cart')) {
-        clearCart();
-        return;
-    }
-    
-    if (lowerMessage.includes('checkout') || lowerMessage.includes('buy') || lowerMessage.includes('purchase')) {
-        checkout();
-        return;
-    }
-    
-    if (lowerMessage.includes('continue shopping') || lowerMessage.includes('start new order')) {
-        addMessage("🛍️ Great! What would you like to browse?" + addQuickReplies());
-        return;
-    }
-    
-    // Help
-    if (lowerMessage.includes('help') || lowerMessage.includes('what can you do')) {
-        addMessage("🛍️ <strong>I can help you with:</strong><br>" +
-            "• <strong>Search products</strong>: 'find headphones', 'search for running shoes'<br>" +
-            "• <strong>Filter by price</strong>: 'products under $50', 'cheap electronics'<br>" +
-            "• <strong>Browse categories</strong>: electronics, clothing, home, books<br>" +
-            "• <strong>Manage cart</strong>: view cart, add items, checkout<br><br>" +
-            "What would you like to do?" + addQuickReplies());
-        return;
-    }
-    
-    // Thank you
-    if (lowerMessage.includes('thank') || lowerMessage.includes('thanks')) {
-        addMessage("You're welcome! 😊 Is there anything else I can help you with?" + addQuickReplies());
-        return;
-    }
-    
-    // Default - try to interpret as search
-    if (message.length > 2) {
-        performSearch(message);
-    } else {
-        addMessage("I'm here to help with your shopping! Try searching for products or asking for help." + addQuickReplies());
-    }
 }
 
 // Chat functions
@@ -528,7 +370,7 @@ function showTypingIndicator() {
     
     const contentDiv = document.createElement('div');
     contentDiv.className = 'message-content typing-indicator';
-    contentDiv.innerHTML = 'Thinking<span class="typing-dots"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span>';
+    contentDiv.innerHTML = 'Searching across Indian websites<span class="typing-dots"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span>';
     
     typingDiv.appendChild(contentDiv);
     chatMessages.appendChild(typingDiv);
@@ -548,7 +390,7 @@ function hideTypingIndicator() {
 document.addEventListener('DOMContentLoaded', function() {
     // Add welcome message after a short delay
     setTimeout(() => {
-        addMessage("👋 Welcome to your personal shopping assistant! I can help you find products, compare prices, and manage your cart. What would you like to do?" + addQuickReplies());
+        addMessage("👋 Namaste! Welcome to your personal India shopping assistant! 🇮🇳<br><br>I can help you search for <strong>any product</strong> across:<br>• Amazon India<br>• Flipkart<br>• Myntra<br>• Ajio<br>• Snapdeal<br><br>Just tell me what you want to buy!" + addQuickReplies());
     }, 1000);
 });
 
