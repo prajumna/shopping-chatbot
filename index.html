@@ -10,16 +10,21 @@
     <div class="chat-container">
         <div class="chat-header">
             <h1>🛍️ Shopping Assistant</h1>
-            <p>How can I help you today?</p>
+            <p>Your personal AI shopping helper</p>
         </div>
         
         <div class="chat-messages" id="chatMessages">
-            <!-- Messages will appear here -->
+            <!-- Messages will appear here automatically -->
         </div>
         
         <div class="chat-input-container">
-            <input type="text" class="chat-input" id="userInput" placeholder="Type your message...">
-            <button class="send-button" onclick="sendMessage()">Send</button>
+            <input type="text" class="chat-input" id="userInput" placeholder="Ask about products, prices, or search...">
+            <button class="send-button" onclick="sendMessage()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22,2 15,22 11,13 2,9"></polygon>
+                </svg>
+            </button>
         </div>
     </div>
 
