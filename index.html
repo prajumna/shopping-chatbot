@@ -3,72 +3,664 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>India Shopping Assistant</title>
-    <link rel="stylesheet" href="style.css">
+    <title>AI Shopping Assistant - India</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Chat Container */
+        .chat-container {
+            flex: 1;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .message.bot {
+            justify-content: flex-start;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-content {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .bot .message-content {
+            background: white;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .user .message-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .chat-input-container {
+            padding: 15px 20px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        .send-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        /* Websites Panel */
+        .websites-panel {
+            width: 400px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .website-frame-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .current-website {
+            padding: 15px;
+            background: #34495e;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .website-frame {
+            flex: 1;
+            border: none;
+            width: 100%;
+        }
+
+        .website-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            padding: 15px;
+            background: #ecf0f1;
+        }
+
+        .website-btn {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .website-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Quick Replies */
+        .quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .quick-reply {
+            background: #e9ecef;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quick-reply:hover {
+            background: #dee2e6;
+            transform: translateY(-2px);
+        }
+
+        /* Product Cards */
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
+        }
+
+        .website-links {
+            display: flex;
+            gap: 8px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+
+        .website-link {
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: white;
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: transform 0.2s;
+        }
+
+        .website-link:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: inline-flex;
+            align-items: center;
+            color: #666;
+            font-style: italic;
+        }
+
+        .typing-dots {
+            display: flex;
+            margin-left: 5px;
+        }
+
+        .typing-dot {
+            width: 4px;
+            height: 4px;
+            background: #666;
+            border-radius: 50%;
+            margin: 0 1px;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .websites-panel {
+                width: 100%;
+                height: 400px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <!-- Websites Panel -->
-        <div class="websites-panel">
-            <h2>🛍️ Indian Shopping Websites</h2>
-            <div class="website-list">
-                <a href="https://amazon.in" target="_blank" class="website-item" style="background: #FF9900;">
-                    <span class="website-icon">📦</span>
-                    Amazon India
-                </a>
-                <a href="https://flipkart.com" target="_blank" class="website-item" style="background: #047BD5;">
-                    <span class="website-icon">📱</span>
-                    Flipkart
-                </a>
-                <a href="https://myntra.com" target="_blank" class="website-item" style="background: #FF3F6C;">
-                    <span class="website-icon">👕</span>
-                    Myntra
-                </a>
-                <a href="https://ajio.com" target="_blank" class="website-item" style="background: #000000;">
-                    <span class="website-icon">🛍️</span>
-                    Ajio
-                </a>
-                <a href="https://snapdeal.com" target="_blank" class="website-item" style="background: #CB202D;">
-                    <span class="website-icon">🛒</span>
-                    Snapdeal
-                </a>
-            </div>
-            
-            <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid #eee;">
-                <h3>💡 How to use:</h3>
-                <p style="font-size: 0.85rem; color: #666; margin-top: 10px;">
-                    Just type any product name like:<br>
-                    • "iPhone 15"<br>
-                    • "Nike shoes"<br>
-                    • "Samsung TV"<br>
-                    • "Kitchen mixer"
-                </p>
-            </div>
-        </div>
-
         <!-- Chat Container -->
         <div class="chat-container">
             <div class="chat-header">
-                <h1>🇮🇳 India Shopping Assistant</h1>
-                <p>Search across 5 major Indian websites</p>
+                <h1>🛍️ AI Shopping Assistant</h1>
+                <p>Your personal shopping helper for Indian websites</p>
             </div>
             
             <div class="chat-messages" id="chatMessages">
-                <!-- Messages will appear here automatically -->
+                <!-- Messages will appear here -->
             </div>
             
             <div class="chat-input-container">
-                <input type="text" class="chat-input" id="userInput" placeholder="Type any product name like 'iPhone', 'shoes', 'laptop'...">
-                <button class="send-button" onclick="sendMessage()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="22" y1="2" x2="11" y2="13"></line>
-                        <polygon points="22,2 15,22 11,13 2,9"></polygon>
-                    </svg>
-                </button>
+                <input type="text" class="chat-input" id="userInput" placeholder="Type your message...">
+                <button class="send-button" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+
+        <!-- Websites Panel -->
+        <div class="websites-panel">
+            <div class="panel-header">
+                <h2>🛒 Live Shopping View</h2>
+                <p>See products on Indian websites</p>
+            </div>
+            <div class="website-frame-container">
+                <div class="current-website" id="currentWebsite">
+                    Ready to search...
+                </div>
+                <iframe class="website-frame" id="websiteFrame" src="about:blank"></iframe>
+                <div class="website-buttons">
+                    <button class="website-btn" style="background: #FF9900;" onclick="openWebsite('amazon')">📦 Amazon</button>
+                    <button class="website-btn" style="background: #047BD5;" onclick="openWebsite('flipkart')">📱 Flipkart</button>
+                    <button class="website-btn" style="background: #FF3F6C;" onclick="openWebsite('myntra')">👕 Myntra</button>
+                    <button class="website-btn" style="background: #000000;" onclick="openWebsite('ajio')">🛍️ Ajio</button>
+                    <button class="website-btn" style="background: #CB202D;" onclick="openWebsite('snapdeal')">🛒 Snapdeal</button>
+                    <button class="website-btn" style="background: #28a745;" onclick="openWebsite('all')">🌐 All Sites</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // Simple AI Shopping Assistant
+        class ShoppingAssistant {
+            constructor() {
+                this.websites = {
+                    amazon: {
+                        name: "Amazon India",
+                        color: "#FF9900",
+                        searchUrl: "https://www.amazon.in/s?k="
+                    },
+                    flipkart: {
+                        name: "Flipkart", 
+                        color: "#047BD5",
+                        searchUrl: "https://www.flipkart.com/search?q="
+                    },
+                    myntra: {
+                        name: "Myntra",
+                        color: "#FF3F6C", 
+                        searchUrl: "https://www.myntra.com/"
+                    },
+                    ajio: {
+                        name: "Ajio",
+                        color: "#000000",
+                        searchUrl: "https://www.ajio.com/search/?text="
+                    },
+                    snapdeal: {
+                        name: "Snapdeal",
+                        color: "#CB202D",
+                        searchUrl: "https://www.snapdeal.com/search?keyword="
+                    }
+                };
+                
+                this.userPreferences = {
+                    budget: null,
+                    brand: null
+                };
+            }
+
+            // Process user message
+            processMessage(message) {
+                const lowerMessage = message.toLowerCase();
+                
+                // Greeting
+                if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
+                    return this.getGreetingResponse();
+                }
+                
+                // Help
+                if (lowerMessage.includes('help')) {
+                    return this.getHelpResponse();
+                }
+                
+                // Product search
+                if (lowerMessage.includes('find') || lowerMessage.includes('search') || 
+                    lowerMessage.includes('look for') || lowerMessage.includes('want') ||
+                    lowerMessage.includes('need') || lowerMessage.includes('buy')) {
+                    return this.handleProductSearch(message);
+                }
+                
+                // Budget
+                if (lowerMessage.includes('budget') || lowerMessage.includes('price') || 
+                    lowerMessage.includes('under') || lowerMessage.includes('rs') || 
+                    lowerMessage.includes('₹')) {
+                    return this.handleBudget(message);
+                }
+                
+                // Brand preference
+                if (lowerMessage.includes('brand') || this.isBrandMentioned(lowerMessage)) {
+                    return this.handleBrand(message);
+                }
+                
+                // Default response
+                return "I can help you find products on Indian websites! Tell me what you're looking for, or ask for help.";
+            }
+
+            getGreetingResponse() {
+                return `👋 Hello! I'm your AI shopping assistant! I can help you find products across Indian websites like Amazon, Flipkart, Myntra, Ajio, and Snapdeal.
+
+What would you like to shop for today? You can say things like:
+• "I want to buy a smartphone"
+• "Find running shoes for me" 
+• "Search for laptop under 50000"`;
+            }
+
+            getHelpResponse() {
+                return `🛍️ <strong>How I can help you:</strong>
+
+<strong>Product Search:</strong>
+• "Find wireless headphones"
+• "Search for Nike shoes" 
+• "I want to buy a laptop"
+
+<strong>Budget Filter:</strong>
+• "Under 20000 rupees"
+• "Budget 10000-15000"
+• "Cheap smartphone"
+
+<strong>Brand Preference:</strong>  
+• "Samsung phone"
+• "Apple products"
+• "Nike sports shoes"
+
+<strong>Supported Websites:</strong>
+📦 Amazon India, 📱 Flipkart, 👕 Myntra, 🛍️ Ajio, 🛒 Snapdeal
+
+Just tell me what you're looking for!`;
+            }
+
+            handleProductSearch(message) {
+                const productName = this.extractProductName(message);
+                
+                if (!productName) {
+                    return "What product are you looking for? Please tell me specifically, like 'smartphone', 'running shoes', or 'kitchen mixer'.";
+                }
+                
+                // Extract budget if mentioned
+                const budget = this.extractBudget(message);
+                if (budget) {
+                    this.userPreferences.budget = budget;
+                }
+                
+                // Extract brand if mentioned  
+                const brand = this.extractBrand(message);
+                if (brand) {
+                    this.userPreferences.brand = brand;
+                }
+                
+                return this.generateSearchResponse(productName);
+            }
+
+            handleBudget(message) {
+                const budget = this.extractBudget(message);
+                if (budget) {
+                    this.userPreferences.budget = budget;
+                    return `✅ Got it! I'll search for products within your budget: ${budget.min ? '₹' + budget.min : ''}${budget.min && budget.max ? '-' : ''}${budget.max ? '₹' + budget.max : ''}. What product are you looking for?`;
+                }
+                return "Please specify your budget range. For example: 'under 15000', 'budget 10000-20000', or 'around 5000 rupees'.";
+            }
+
+            handleBrand(message) {
+                const brand = this.extractBrand(message);
+                if (brand) {
+                    this.userPreferences.brand = brand;
+                    return `✅ Perfect! I'll look for ${brand} products. What specific item are you searching for?`;
+                }
+                return "Which brand are you interested in? For example: Samsung, Apple, Nike, Adidas, etc.";
+            }
+
+            extractProductName(message) {
+                // Remove common prefixes
+                const prefixes = ['find', 'search', 'look for', 'show me', 'i want', 'need', 'buy', 'purchase', 'get'];
+                let productName = message.toLowerCase();
+                
+                prefixes.forEach(prefix => {
+                    if (productName.startsWith(prefix)) {
+                        productName = productName.substring(prefix.length).trim();
+                    }
+                });
+                
+                // Remove question marks and common words
+                productName = productName.replace(/[?]/g, '').replace(/(please|pls|thanks|thank you)/g, '').trim();
+                
+                return productName || message;
+            }
+
+            extractBudget(message) {
+                const lowerMessage = message.toLowerCase();
+                
+                // Patterns: "under 15000", "budget 10000-20000", "around 5000", "10000 to 15000"
+                const underMatch = lowerMessage.match(/(under|below|less than)\s*(\d+)/);
+                const rangeMatch = lowerMessage.match(/(\d+)\s*-\s*(\d+)/) || lowerMessage.match(/(\d+)\s*to\s*(\d+)/);
+                const aroundMatch = lowerMessage.match(/(around|about|approximately)\s*(\d+)/);
+                
+                if (underMatch) {
+                    return { max: parseInt(underMatch[2]) };
+                } else if (rangeMatch) {
+                    return { min: parseInt(rangeMatch[1]), max: parseInt(rangeMatch[2]) };
+                } else if (aroundMatch) {
+                    const amount = parseInt(aroundMatch[2]);
+                    return { min: Math.floor(amount * 0.8), max: Math.ceil(amount * 1.2) };
+                }
+                
+                return null;
+            }
+
+            extractBrand(message) {
+                const brands = [
+                    'samsung', 'apple', 'oneplus', 'xiaomi', 'realme', 'oppo', 'vivo',
+                    'nike', 'adidas', 'puma', 'reebok', 'levis', 'allen solly', 'h&m', 'zara',
+                    'sony', 'lg', 'bosch', 'philips', 'prestige', 'milton'
+                ];
+                
+                const lowerMessage = message.toLowerCase();
+                for (const brand of brands) {
+                    if (lowerMessage.includes(brand)) {
+                        return brand;
+                    }
+                }
+                
+                return null;
+            }
+
+            isBrandMentioned(message) {
+                return this.extractBrand(message) !== null;
+            }
+
+            generateSearchResponse(productName) {
+                let response = `🔍 <strong>Searching for "${productName}"</strong><br><br>`;
+                
+                // Add budget info if available
+                if (this.userPreferences.budget) {
+                    const budget = this.userPreferences.budget;
+                    response += `💰 <strong>Budget:</strong> ${budget.min ? '₹' + budget.min : ''}${budget.min && budget.max ? '-' : ''}${budget.max ? '₹' + budget.max : ''}<br>`;
+                }
+                
+                // Add brand info if available
+                if (this.userPreferences.brand) {
+                    response += `🏷️ <strong>Brand:</strong> ${this.userPreferences.brand}<br>`;
+                }
+                
+                response += `<br>Here are the best places to search:<br><br>`;
+                
+                // Generate website links
+                Object.values(this.websites).forEach(site => {
+                    const searchUrl = site.searchUrl + encodeURIComponent(productName);
+                    response += `
+                        <div class="product-card">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <strong>${site.name}</strong>
+                                <a href="${searchUrl}" target="_blank" class="website-link" style="background: ${site.color}">
+                                    Search Now
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                response += `<br>I've also opened the search in the panel on the right. You can click any website button to search there!`;
+                
+                // Update the website panel
+                this.updateWebsitePanel(productName);
+                
+                return response;
+            }
+
+            updateWebsitePanel(productName) {
+                // Default to Amazon search
+                const searchUrl = this.websites.amazon.searchUrl + encodeURIComponent(productName);
+                document.getElementById('websiteFrame').src = searchUrl;
+                document.getElementById('currentWebsite').textContent = `Searching: ${productName} on Amazon`;
+            }
+        }
+
+        // Initialize the assistant
+        const assistant = new ShoppingAssistant();
+
+        // Chat functions
+        function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const message = userInput.value.trim();
+            
+            if (message === '') return;
+            
+            // Add user message
+            addMessage(message, true);
+            userInput.value = '';
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Process message after delay
+            setTimeout(() => {
+                hideTypingIndicator();
+                const response = assistant.processMessage(message);
+                addMessage(response, false);
+            }, 1000);
+        }
+
+        function addMessage(message, isUser) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.innerHTML = message;
+            
+            messageDiv.appendChild(contentDiv);
+            chatMessages.appendChild(messageDiv);
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const chatMessages = document.getElementById('chatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message bot';
+            typingDiv.id = 'typingIndicator';
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content typing-indicator';
+            contentDiv.innerHTML = 'AI is thinking<span class="typing-dots"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span>';
+            
+            typingDiv.appendChild(contentDiv);
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        // Website functions
+        function openWebsite(site) {
+            const websites = {
+                amazon: "https://www.amazon.in",
+                flipkart: "https://www.flipkart.com",
+                myntra: "https://www.myntra.com",
+                ajio: "https://www.ajio.com",
+                snapdeal: "https://www.snapdeal.com",
+                all: "https://www.google.com/search?q=shopping+sites+india"
+            };
+            
+            if (websites[site]) {
+                document.getElementById('websiteFrame').src = websites[site];
+                document.getElementById('currentWebsite').textContent = `Browsing: ${site.charAt(0).toUpperCase() + site.slice(1)}`;
+            }
+        }
+
+        // Quick replies
+        function quickReply(product) {
+            document.getElementById('userInput').value = product;
+            sendMessage();
+        }
+
+        // Initialize with welcome message
+        window.onload = function() {
+            setTimeout(() => {
+                addMessage("👋 Welcome to your AI Shopping Assistant! I can help you find products across Indian websites. Try saying 'I want to buy a smartphone' or ask for 'help' to see what I can do!", false);
+            }, 500);
+        };
+
+        // Enter key support
+        document.getElementById('userInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
 </body>
 </html>
