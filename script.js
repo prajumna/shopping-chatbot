@@ -146,4 +146,119 @@ function searchProducts(query) {
         .sort((a, b) => b.score - a.score)
         .slice(0, 5) // Limit to top 5 results
         .map(item => item.product);
-} 
+}
+function processMessage(message) {
+    const lowerMessage = message.toLowerCase();
+    
+    // Greetings
+    if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+        addMessage("Hello! 👋 I can help you find products. Try searching for specific items like 'headphones', 'shoes', or 'affordable electronics'!" +
+            addQuickReplies());
+        return;
+    }
+    
+    // Product search
+    if (lowerMessage.includes('find') || lowerMessage.includes('search') || lowerMessage.includes('look for') || 
+        lowerMessage.includes('show me') || lowerMessage.includes('i want') || lowerMessage.includes('need')) {
+        
+        // Extract search query from the message
+        let searchQuery = extractSearchQuery(message);
+        
+        if (searchQuery) {
+            performSearch(searchQuery);
+        } else {
+            addMessage("What would you like me to search for? Try something like 'search for headphones' or 'find running shoes'.");
+        }
+        return;
+    }
+    
+    // Price-based searches
+    if (lowerMessage.includes('under') || lowerMessage.includes('cheap') || lowerMessage.includes('budget') || 
+        lowerMessage.includes('expensive') || lowerMessage.includes('affordable')) {
+        performSearch(message);
+        return;
+    }
+    
+    // Category browsing
+    if (lowerMessage.includes('electron') || lowerMessage.includes('tech')) {
+        showProducts('electronics');
+        return;
+    }
+    
+    if (lowerMessage.includes('cloth') || lowerMessage.includes('fashion') || lowerMessage.includes('wear')) {
+        showProducts('clothing');
+        return;
+    }
+    
+    if (lowerMessage.includes('home') || lowerMessage.includes('decor') || lowerMessage.includes('furniture')) {
+        showProducts('home');
+        return;
+    }
+    
+    // Cart operations
+    if (lowerMessage.includes('cart') || lowerMessage.includes('basket')) {
+        showCart();
+        return;
+    }
+    
+    // Help
+    if (lowerMessage.includes('help')) {
+        addMessage("I can help you:<br>" +
+            "• <strong>Search products</strong>: 'find headphones', 'search for running shoes'<br>" +
+            "• <strong>Filter by price</strong>: 'products under $50', 'cheap electronics'<br>" +
+            "• <strong>Browse categories</strong>: electronics, clothing, home<br>" +
+            "• <strong>Manage cart</strong>: view cart, add items<br><br>" +
+            "What would you like to do?" + addQuickReplies());
+        return;
+    }
+    
+    // Default - try to interpret as search
+    performSearch(message);
+}
+
+// Helper function to extract search query
+function extractSearchQuery(message) {
+    const searchPrefixes = ['find', 'search', 'look for', 'show me', 'i want', 'need'];
+    let query = message.toLowerCase();
+    
+    // Remove common prefixes to get the actual search term
+    searchPrefixes.forEach(prefix => {
+        if (query.startsWith(prefix)) {
+            query = query.substring(prefix.length).trim();
+        }
+    });
+    
+    // Remove question marks and other punctuation
+    query = query.replace(/[?]/g, '').trim();
+    
+    return query || message;
+}
+
+// Function to perform and display search
+function performSearch(query) {
+    const results = searchProducts(query);
+    
+    if (results.length === 0) {
+        addMessage(`I couldn't find any products matching "${query}". Try different keywords or browse categories.` +
+            addQuickReplies());
+        return;
+    }
+    
+    let response = `I found ${results.length} product(s) for "${query}":<br><br>`;
+    
+    results.forEach(product => {
+        response += `
+            <div class="product-card">
+                <h4>${product.name}</h4>
+                <div class="price">$${product.price}</div>
+                <p>${product.description}</p>
+                <button class="add-to-cart" onclick="addToCart(${product.id})">Add to Cart</button>
+            </div>
+        `;
+    });
+    
+    response += `<br>Try searching for something else or browse categories!`;
+    
+    addMessage(response);
+}
+
