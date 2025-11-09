@@ -72,4 +72,78 @@ document.getElementById('userInput').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
         sendMessage();
     }
+
 });
+// Smart product search function
+function searchProducts(query) {
+    const lowerQuery = query.toLowerCase().trim();
+    const results = [];
+    
+    // If query is empty, return some featured products
+    if (!lowerQuery) {
+        return [
+            products.electronics[0],
+            products.clothing[0], 
+            products.home[0]
+        ];
+    }
+    
+    // Search through all products
+    for (const category in products) {
+        products[category].forEach(product => {
+            let score = 0;
+            
+            // Exact name match (highest priority)
+            if (product.name.toLowerCase().includes(lowerQuery)) {
+                score += 10;
+            }
+            
+            // Description match
+            if (product.description.toLowerCase().includes(lowerQuery)) {
+                score += 5;
+            }
+            
+            // Tag matches
+            product.tags.forEach(tag => {
+                if (tag.toLowerCase().includes(lowerQuery)) {
+                    score += 3;
+                }
+            });
+            
+            // Category match
+            if (product.category.toLowerCase().includes(lowerQuery)) {
+                score += 2;
+            }
+            
+            // Price search (e.g., "under 50", "cheap", "expensive")
+            if (lowerQuery.includes('under') || lowerQuery.includes('less than') || lowerQuery.includes('below')) {
+                const priceMatch = lowerQuery.match(/(\d+)/);
+                if (priceMatch && product.price <= parseInt(priceMatch[1])) {
+                    score += 4;
+                }
+            }
+            
+            if (lowerQuery.includes('cheap') || lowerQuery.includes('budget') || lowerQuery.includes('affordable')) {
+                if (product.price < 50) score += 3;
+            }
+            
+            if (lowerQuery.includes('expensive') || lowerQuery.includes('premium') || lowerQuery.includes('luxury')) {
+                if (product.price > 100) score += 3;
+            }
+            
+            // Add to results if score is above threshold
+            if (score > 0) {
+                results.push({
+                    product: product,
+                    score: score
+                });
+            }
+        });
+    }
+    
+    // Sort by score (highest first) and return only products
+    return results
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 5) // Limit to top 5 results
+        .map(item => item.product);
+} 
