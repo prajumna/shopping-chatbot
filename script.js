@@ -261,4 +261,22 @@ function performSearch(query) {
     
     addMessage(response);
 }
+function addQuickReplies() {
+    const quickReplies = [
+        'Find headphones',
+        'Search for shoes',
+        'Show electronics',
+        'Budget products',
+        'View cart'
+    ];
+    
+    let buttonsHTML = '<div class="quick-replies">';
+    quickReplies.forEach(reply => {
+        buttonsHTML += `<button class="quick-reply" onclick="handleQuickReply('${reply}')">${reply}</button>`;
+    });
+    buttonsHTML += '</div>';
+    
+    return buttonsHTML;
+}
+
 
