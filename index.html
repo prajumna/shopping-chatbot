@@ -3,28 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Assistant</title>
+    <title>India Shopping Assistant</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="chat-container">
-        <div class="chat-header">
-            <h1>🛍️ Shopping Assistant</h1>
-            <p>Your personal AI shopping helper</p>
+    <div class="container">
+        <!-- Websites Panel -->
+        <div class="websites-panel">
+            <h2>🛍️ Indian Shopping Websites</h2>
+            <div class="website-list">
+                <a href="https://amazon.in" target="_blank" class="website-item" style="background: #FF9900;">
+                    <span class="website-icon">📦</span>
+                    Amazon India
+                </a>
+                <a href="https://flipkart.com" target="_blank" class="website-item" style="background: #047BD5;">
+                    <span class="website-icon">📱</span>
+                    Flipkart
+                </a>
+                <a href="https://myntra.com" target="_blank" class="website-item" style="background: #FF3F6C;">
+                    <span class="website-icon">👕</span>
+                    Myntra
+                </a>
+                <a href="https://ajio.com" target="_blank" class="website-item" style="background: #000000;">
+                    <span class="website-icon">🛍️</span>
+                    Ajio
+                </a>
+                <a href="https://snapdeal.com" target="_blank" class="website-item" style="background: #CB202D;">
+                    <span class="website-icon">🛒</span>
+                    Snapdeal
+                </a>
+            </div>
+            
+            <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid #eee;">
+                <h3>💡 How to use:</h3>
+                <p style="font-size: 0.85rem; color: #666; margin-top: 10px;">
+                    Just type any product name like:<br>
+                    • "iPhone 15"<br>
+                    • "Nike shoes"<br>
+                    • "Samsung TV"<br>
+                    • "Kitchen mixer"
+                </p>
+            </div>
         </div>
-        
-        <div class="chat-messages" id="chatMessages">
-            <!-- Messages will appear here automatically -->
-        </div>
-        
-        <div class="chat-input-container">
-            <input type="text" class="chat-input" id="userInput" placeholder="Ask about products, prices, or search...">
-            <button class="send-button" onclick="sendMessage()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="22" y1="2" x2="11" y2="13"></line>
-                    <polygon points="22,2 15,22 11,13 2,9"></polygon>
-                </svg>
-            </button>
+
+        <!-- Chat Container -->
+        <div class="chat-container">
+            <div class="chat-header">
+                <h1>🇮🇳 India Shopping Assistant</h1>
+                <p>Search across 5 major Indian websites</p>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will appear here automatically -->
+            </div>
+            
+            <div class="chat-input-container">
+                <input type="text" class="chat-input" id="userInput" placeholder="Type any product name like 'iPhone', 'shoes', 'laptop'...">
+                <button class="send-button" onclick="sendMessage()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22,2 15,22 11,13 2,9"></polygon>
+                    </svg>
+                </button>
+            </div>
         </div>
     </div>
 
